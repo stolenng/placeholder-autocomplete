@@ -21,6 +21,7 @@ it receives 2 parameters:
 <br>
 <br>
 For Example:
+<br>
 ```
 createPlaceholderAutocomplete({
         inputId: 'input-without-container',
