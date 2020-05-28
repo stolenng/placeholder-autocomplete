@@ -1,7 +1,7 @@
 # placeholder-autocomplete
 A library of placeholder autocomplete which allows you to connect to existing inputs from any library or custom ones.
 
-![](placeholder-autocomplete.gif)
+![](placeholder-autcomplete.gif)
 
 ## How it works
 Each input pair value is being split by spaces, e.g `from:someone to:someone` will be split into 2 groups: `[from:someone, to:someone]`,
