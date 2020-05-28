@@ -16,7 +16,7 @@ const createPlaceholder = () => {
 };
 
 
-function closest(arr, textToFind) {
+const closest = (arr, textToFind) => {
     var matches = arr.filter(function (windowValue) {
         if (windowValue) {
             return windowValue.indexOf(textToFind) >= 0;
@@ -27,7 +27,7 @@ function closest(arr, textToFind) {
 
 }
 
-export const getFormattedStringFromInput = ({currentText, terms}) => {
+const getFormattedStringFromInput = ({currentText, terms}) => {
     let finalString = '';
     const splitTextBySpace = currentText.split(' ').filter(Boolean);
 
