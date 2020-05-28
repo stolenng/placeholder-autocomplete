@@ -1,4 +1,4 @@
-import {getFormattedStringFromInput} from "./index";
+import {getFormattedStringFromInput} from "./placeholder-autocomplete";
 
 describe('placeholder autocomplete', () => {
    it('should format normal string correctly', () => {

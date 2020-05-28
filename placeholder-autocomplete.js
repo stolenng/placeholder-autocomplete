@@ -1,13 +1,3 @@
-window.onload = () => {
-    createPlaceholderAutocomplete({
-        inputId: 'input-without-container',
-        terms: {
-            'from': ['georgy', 'artem', 'nandato'],
-            'to': ['georgy', 'artem', 'nandato'],
-        }
-    });
-};
-
 const createPlaceholder = () => {
     const placeholderInput = document.createElement('div');
     placeholderInput.classList.add('placeholder-input');
@@ -24,10 +14,9 @@ const closest = (arr, textToFind) => {
     });
 
     return matches[0] || '';
+};
 
-}
-
-const getFormattedStringFromInput = ({currentText, terms}) => {
+export const getFormattedStringFromInput = ({currentText, terms}) => {
     let finalString = '';
     const splitTextBySpace = currentText.split(' ').filter(Boolean);
 
@@ -102,7 +91,7 @@ const getFormattedStringFromInput = ({currentText, terms}) => {
 
     return finalString;
 };
-//todo: empty undefined
+
 const listenToText = ({input, placeholder, terms}) => {
     const getTextFromEvent = (e) => {
         const currentText = e.target.value;
@@ -131,7 +120,7 @@ const listenToText = ({input, placeholder, terms}) => {
     // placeholder.addEventListener('click', () => input.focus());
 };
 
-const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
+export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
     const realInput = document.getElementById(inputId);
     const placeholderInput = createPlaceholder();
 

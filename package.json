@@ -2,8 +2,12 @@
   "name": "placeholder-autocomplete",
   "version": "0.0.1",
   "description": "placeholder autocomplete library",
-  "main": "index.js",
+  "source": "./placeholder-autocomplete.js",
+  "main": "dist/placeholder-autocomplete.js",
+  "module": "dist/placeholder-autocomplete.module.js",
+  "unpkg": "dist/placeholder-autocomplete.umd.js",
   "scripts": {
+    "build": "rm -rf dist && microbundle",
     "test": "npm run test"
   },
   "repository": {
@@ -27,6 +31,10 @@
     "@babel/core": "^7.10.1",
     "@babel/preset-env": "^7.10.1",
     "babel-jest": "^26.0.1",
-    "jest": "^26.0.1"
-  }
+    "jest": "^26.0.1",
+    "microbundle": "^0.12.0"
+  },
+  "files": [
+    "dist"
+  ]
 }
