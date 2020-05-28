@@ -1,0 +1,26 @@
+{
+  "name": "placeholder-autocomplete",
+  "version": "0.0.1",
+  "description": "placeholder autocomplete library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stolenng/placeholder-autocomplete.git"
+  },
+  "keywords": [
+    "javascript",
+    "html5",
+    "html",
+    "placeholder",
+    "autocomplete"
+  ],
+  "author": "Georgy Glezer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stolenng/placeholder-autocomplete/issues"
+  },
+  "homepage": "https://github.com/stolenng/placeholder-autocomplete#readme"
+}
