@@ -4,7 +4,7 @@
   "description": "placeholder autocomplete library",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/stolenng/placeholder-autocomplete/issues"
   },
-  "homepage": "https://github.com/stolenng/placeholder-autocomplete#readme"
+  "homepage": "https://github.com/stolenng/placeholder-autocomplete#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "babel-jest": "^26.0.1",
+    "jest": "^26.0.1"
+  }
 }

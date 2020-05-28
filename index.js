@@ -1,12 +1,4 @@
 window.onload = () => {
-    createPlaceholderAutocompleteWithContainer({
-        containerId: 'test',
-        terms: {
-            'from': ['georgy', 'artem', 'nandato'],
-            'to': ['georgy', 'artem', 'nandato'],
-        }
-    });
-
     createPlaceholderAutocomplete({
         inputId: 'input-without-container',
         terms: {
@@ -14,15 +6,6 @@ window.onload = () => {
             'to': ['georgy', 'artem', 'nandato'],
         }
     });
-};
-
-
-const createPlaceholderInput = () => {
-    const realInput = document.createElement('input');
-    realInput.type = 'text';
-    realInput.classList.add('real-input');
-
-    return realInput;
 };
 
 const createPlaceholder = () => {
@@ -44,81 +27,91 @@ function closest(arr, textToFind) {
 
 }
 
+export const getFormattedStringFromInput = ({currentText, terms}) => {
+    let finalString = '';
+    const splitTextBySpace = currentText.split(' ').filter(Boolean);
+
+    splitTextBySpace.forEach((textBlock, textIndex) => {
+        // if empty return
+        if (textBlock === '') {
+            return;
+        }
+
+
+        const splitTextByColon = textBlock.split(':');
+
+        //if were not last we just show key value no need to check
+        if (textIndex !== splitTextBySpace.length - 1) {
+            const key = splitTextByColon[0];
+            const value = splitTextByColon[1];
+
+            //space in the end between existing combinations
+            if (key && value) {
+                finalString += `${key}:${value} `;
+            } else if (key) {
+                finalString += `${key} `;
+            }
+
+            return;
+        }
+
+        //key + value
+        if (splitTextByColon.length === 2) {
+            const key = splitTextByColon[0];
+
+            // bad combination amazing user
+            if (!terms[key]) {
+                finalString = currentText;
+                return;
+            }
+
+            const textValue = splitTextByColon[1];
+            const allValues = Object.values(terms[key]);
+
+
+            if (textValue.indexOf(',') === -1) {
+                const valueToShow = closest(allValues, textValue);
+                finalString += `${key}:${valueToShow || textValue}`;
+            } else {
+                // multiple values
+                const splitValueByCommas = textValue.split(',');
+                const lastValue = splitValueByCommas.splice(-1);
+                const lastValueSimilarFound = closest(allValues, lastValue) || lastValue; // for now default 0
+                const allValuesToShow = [...splitValueByCommas, lastValueSimilarFound];
+                finalString += `${key}:${allValuesToShow.join(',')}`;
+            }
+
+            return;
+        }
+        // only key
+        if (splitTextByColon.length === 1) {
+            const key = splitTextByColon[0];
+            const allKeys = Object.keys(terms);
+            const keyName = closest(allKeys, key);
+
+            if (!keyName) {
+                finalString = currentText;
+                return;
+            }
+
+            finalString += `${keyName}:${terms[keyName][0]}`;
+            return;
+        }
+
+    });
+
+    return finalString;
+};
+//todo: empty undefined
 const listenToText = ({input, placeholder, terms}) => {
     const getTextFromEvent = (e) => {
         const currentText = e.target.value;
 
-        let finalString = '';
-        const splitTextBySpace = currentText.split(' ');
-
-        splitTextBySpace.forEach((textBlock, textIndex) => {
-            // if empty return
-            if (textBlock === '') {
-                return;
-            }
-
-
-            const splitTextByColon = textBlock.split(':');
-
-            //if were not last we just show key value no need to check
-            if (textIndex !== splitTextBySpace.length - 1) {
-                const key = splitTextByColon[0];
-                const value = splitTextByColon[1];
-
-                finalString += `${key}:${value} `;
-
-                return;
-            }
-
-            //key + value
-            if (splitTextByColon.length === 2) {
-                const key = splitTextByColon[0];
-                const textValue = splitTextByColon[1];
-                const allValues = Object.values(terms[key]);
-
-                if (textValue.indexOf(',') === -1) {
-                    const valueToShow = closest(allValues, textValue);
-                    finalString += `${key}:${valueToShow || textValue}`;
-                } else {
-                    // if it has commas -> multiple values
-                    const splitValueByCommas = textValue.split(',');
-                    const lastValue = splitValueByCommas.splice(-1);
-                    const lastValueSimilarFound = closest(allValues, lastValue) || lastValue; // for now default 0
-                    const allValuesToShow = [...splitValueByCommas, lastValueSimilarFound];
-                    finalString += `${key}:${allValuesToShow.join(',')}`;
-                }
-
-                return;
-            }
-            // only key
-            if (splitTextByColon.length === 1) {
-                const key = splitTextByColon[0];
-                const allKeys = Object.keys(terms);
-                const closestKey = closest(allKeys, key);
-                const keyName = closestKey;
-
-                if (!keyName) {
-                    return;
-                }
-
-                finalString += `${keyName}:${terms[keyName][0]}`;
-                return;
-            }
-
-        });
-
-        if (e.key === 'Tab') {
-            input.value = finalString;
-        }
-
-        return finalString;
-
-    }
+        return getFormattedStringFromInput({currentText, terms});
+    };
 
     const handleInput = (e) => {
-        const result = getTextFromEvent(e);
-
-        placeholder.innerText = result;
+        placeholder.innerText = getTextFromEvent(e);
     };
 
     const handleTabPress = (e) => {
@@ -127,32 +120,15 @@ const listenToText = ({input, placeholder, terms}) => {
 
             const result = getTextFromEvent(e);
 
-            input.value = result;
+            if (result) {
+                input.value = result;
+            }
         }
-    }
+    };
 
     input.addEventListener('input', handleInput);
     input.addEventListener('keydown', handleTabPress);
-    placeholder.addEventListener('click', () => {
-        input.focus();
-    })
-};
-
-const createPlaceholderAutocompleteWithContainer = ({containerId, terms}) => {
-    const rootElement = document.getElementById(containerId);
-    rootElement.classList.add('placeholder-autocomplete-container');
-
-    const realInput = createPlaceholderInput();
-    const placeholderInput = createPlaceholder();
-
-    rootElement.appendChild(placeholderInput);
-    rootElement.appendChild(realInput);
-
-    listenToText({
-        input: realInput,
-        placeholder: placeholderInput,
-        terms
-    });
+    // placeholder.addEventListener('click', () => input.focus());
 };
 
 const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
@@ -161,7 +137,6 @@ const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
 
     //set parent css
     realInput.parentElement.style.position = 'relative';
-    realInput.parentElement.style.lineHeight = '22px';
 
     //get css from input to apply on placeholder
     const {fontFamily, width, padding, font, fontWeight} = getComputedStyle(realInput);
@@ -169,7 +144,11 @@ const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
         position: 'absolute',
         top: '2px',
         left: '2px',
+        pointerEvents: 'none',
         opacity: '0.5',
+        overflow: 'hidden',
+        cursor: 'text',
+        userSelect: 'none',
         padding,
         font,
         fontFamily,
