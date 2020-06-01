@@ -1,12 +1,13 @@
 {
   "name": "placeholder-autocomplete",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "placeholder autocomplete library",
   "source": "./placeholder-autocomplete.js",
   "main": "dist/placeholder-autocomplete.js",
   "module": "dist/placeholder-autocomplete.module.js",
   "unpkg": "dist/placeholder-autocomplete.umd.js",
   "scripts": {
+    "dev": "microbundle watch",
     "build": "rm -rf dist && microbundle",
     "test": "npm run test"
   },

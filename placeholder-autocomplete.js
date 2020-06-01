@@ -16,9 +16,15 @@ const closest = (arr, textToFind) => {
     return matches[0] || '';
 };
 
-export const getFormattedStringFromInput = ({currentText, terms}) => {
+export const getFormattedStringFromInput = ({currentText, terms, onKey}) => {
     let finalString = '';
     const splitTextBySpace = currentText.split(' ').filter(Boolean);
+
+    const triggerEvent = (key, value) => {
+        if (onKey) {
+            onKey({key, value});
+        }
+    }
 
     splitTextBySpace.forEach((textBlock, textIndex) => {
         // if empty return
@@ -60,6 +66,7 @@ export const getFormattedStringFromInput = ({currentText, terms}) => {
 
             if (textValue.indexOf(',') === -1) {
                 const valueToShow = closest(allValues, textValue);
+                triggerEvent(key, valueToShow || textValue);
                 finalString += `${key}:${valueToShow || textValue}`;
             } else {
                 // multiple values
@@ -67,6 +74,8 @@ export const getFormattedStringFromInput = ({currentText, terms}) => {
                 const lastValue = splitValueByCommas.splice(-1);
                 const lastValueSimilarFound = closest(allValues, lastValue) || lastValue; // for now default 0
                 const allValuesToShow = [...splitValueByCommas, lastValueSimilarFound];
+
+                triggerEvent(key, allValuesToShow);
                 finalString += `${key}:${allValuesToShow.join(',')}`;
             }
 
@@ -83,6 +92,8 @@ export const getFormattedStringFromInput = ({currentText, terms}) => {
                 return;
             }
 
+            triggerEvent(keyName, terms[keyName][0]);
+
             finalString += `${keyName}:${terms[keyName][0]}`;
             return;
         }
@@ -92,11 +103,11 @@ export const getFormattedStringFromInput = ({currentText, terms}) => {
     return finalString;
 };
 
-const listenToText = ({input, placeholder, terms}) => {
+const listenToText = ({input, placeholder, terms, onKey}) => {
     const getTextFromEvent = (e) => {
         const currentText = e.target.value;
 
-        return getFormattedStringFromInput({currentText, terms});
+        return getFormattedStringFromInput({currentText, terms, onKey});
     };
 
     const handleInput = (e) => {
@@ -120,7 +131,7 @@ const listenToText = ({input, placeholder, terms}) => {
     // placeholder.addEventListener('click', () => input.focus());
 };
 
-export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => {
+export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms, onKey}) => {
     const realInput = document.getElementById(inputId);
     const placeholderInput = createPlaceholder();
 
@@ -128,17 +139,23 @@ export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => 
     realInput.parentElement.style.position = 'relative';
 
     //get css from input to apply on placeholder
-    const {fontFamily, width, padding, font, fontWeight} = getComputedStyle(realInput);
+    const {fontFamily, border, lineHeight, letterSpacing, width, padding, font, fontWeight} = getComputedStyle(realInput);
     Object.assign(placeholderInput.style, {
         position: 'absolute',
         pointerEvents: 'none',
+        top: 0,
+        left: 0,
         opacity: '0.5',
         overflow: 'hidden',
+        border,
+        borderColor: 'transparent',
         cursor: 'text',
         userSelect: 'none',
         padding,
         font,
         fontFamily,
+        lineHeight,
+        letterSpacing,
         fontWeight,
         width
     }, styles);
@@ -147,6 +164,7 @@ export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => 
 
     listenToText({
         input: realInput,
+        onKey,
         placeholder: placeholderInput,
         terms
     });
