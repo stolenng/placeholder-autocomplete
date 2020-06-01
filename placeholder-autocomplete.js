@@ -16,13 +16,13 @@ const closest = (arr, textToFind) => {
     return matches[0] || '';
 };
 
-export const getFormattedStringFromInput = ({currentText, terms, onKey}) => {
+export const getFormattedStringFromInput = ({currentText, terms, onSuggestion}) => {
     let finalString = '';
     const splitTextBySpace = currentText.split(' ').filter(Boolean);
 
     const triggerEvent = (key, value) => {
-        if (onKey) {
-            onKey({key, value});
+        if (onSuggestion) {
+            onSuggestion({key, value});
         }
     }
 
@@ -103,11 +103,11 @@ export const getFormattedStringFromInput = ({currentText, terms, onKey}) => {
     return finalString;
 };
 
-const listenToText = ({input, placeholder, terms, onKey}) => {
+const listenToText = ({input, placeholder, terms, onSuggestion}) => {
     const getTextFromEvent = (e) => {
         const currentText = e.target.value;
 
-        return getFormattedStringFromInput({currentText, terms, onKey});
+        return getFormattedStringFromInput({currentText, terms, onSuggestion});
     };
 
     const handleInput = (e) => {
@@ -131,7 +131,7 @@ const listenToText = ({input, placeholder, terms, onKey}) => {
     // placeholder.addEventListener('click', () => input.focus());
 };
 
-export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms, onKey}) => {
+export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms, onSuggestion}) => {
     const realInput = document.getElementById(inputId);
     const placeholderInput = createPlaceholder();
 
@@ -164,7 +164,7 @@ export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms, onKe
 
     listenToText({
         input: realInput,
-        onKey,
+        onSuggestion,
         placeholder: placeholderInput,
         terms
     });

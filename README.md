@@ -19,7 +19,7 @@ it receives 2 parameters:
 - `styles` - styles object to append to the placeholder.
 its is optional to pass styles but if need you have full control of the styles. 
 - `terms` - key value object which hold key as the term key and the values as rray of values to autocomplete.
-- `onKey` - fires a callback on the next suggestion key and value
+- `onSuggestion` - fires a callback on the next suggestion key and value
 <br>
 <br>
 For Example:
@@ -32,7 +32,7 @@ createPlaceholderAutocomplete({
             'from': ['georgy', 'artem', 'nandato'],
             'to': ['georgy', 'artem', 'nandato'],
         },
-        onKey: (obj) => {
+        onSuggestion: (obj) => {
             const {key, value} = obj;
 
             console.log(`key is ${key}`);
