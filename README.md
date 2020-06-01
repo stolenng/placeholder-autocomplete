@@ -12,11 +12,13 @@ User can click `Tab` key for autocomplete.
 Before attaching the placeholder we copy the css from the input so it can identical :) 
 
 ## Docs - There is only 1 simple function
+<br>
 `createPlaceholderAutocomplete` - the function which we use to create placeholder autocomplete.
 <br>
 it receives 2 parameters:
 - `inputId` - id of the input element.
 - `styles` - styles object to append to the placeholder.
+its is optional to pass styles but if need you have full control of the styles. 
 - `terms` - key value object which hold key as the term key and the values as rray of values to autocomplete.
 <br>
 <br>
@@ -32,6 +34,15 @@ createPlaceholderAutocomplete({
         }
     });
 ``` 
+
+Ideally you should have `input` under 1 parent element, like:
+```
+<div>
+    <input/>
+</div>
+``` 
+
+Like this it will be easier to the placeholder to position it self behind the text.
 
 # Examples
 SOON

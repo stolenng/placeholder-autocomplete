@@ -131,8 +131,6 @@ export const createPlaceholderAutocomplete = ({inputId, styles = {}, terms}) => 
     const {fontFamily, width, padding, font, fontWeight} = getComputedStyle(realInput);
     Object.assign(placeholderInput.style, {
         position: 'absolute',
-        top: '2px',
-        left: '2px',
         pointerEvents: 'none',
         opacity: '0.5',
         overflow: 'hidden',
