@@ -63,5 +63,10 @@ createPlaceholderAutocomplete({
 - [ ] create vue example
 - [ ] create angular example
 
+## Issues
+If you find any bug, or have anything to add or say please open an issue and i will try to solve as fast as i can;
+<br>
+If someone wants to help, you are more the than welcome top open pull requests :)
+
 ## License 
 MIT License.
