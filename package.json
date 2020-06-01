@@ -1,6 +1,6 @@
 {
   "name": "placeholder-autocomplete",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "placeholder autocomplete library",
   "source": "./placeholder-autocomplete.js",
   "main": "dist/placeholder-autocomplete.js",
