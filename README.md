@@ -14,7 +14,6 @@ A library of placeholder autocomplete which allows you to connect to existing in
 
 ## Docs - There is only 1 simple function
 - `createPlaceholderAutocomplete` - the function which we use to create placeholder autocomplete.
-<br>
 it receives the following object:
     - `inputId` - id of the input element.
     - `styles` - styles object to append to the placeholder.
