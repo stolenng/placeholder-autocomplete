@@ -51,11 +51,11 @@ Ideally you should have `input` under 1 parent element, like:
 Like this it will be easier to the placeholder to position it self behind the text.
 
 # Examples
-SOON
+- React - https://codesandbox.io/s/material-demo-0ctk6?file=/demo.js
 
 ## TODOS/IDEAS
 - [ ] async fetch term values
-- [ ] callback event for key,value, fullText
+- [X] callback event for key,value
 - [ ] allow autocomplete list also ??
     - [ ] custom
     - [ ] default list
@@ -64,7 +64,7 @@ SOON
     - [ ] key value seperator
     - [ ] multiple values seperator
 - [ ] create angular example
-- [ ] create react example
+- [X] create react example
 - [ ] create vue example
 - [ ] create angular example
 
